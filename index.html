@@ -467,8 +467,32 @@
       var(--bg) 100%);
     z-index:1;
   }
-  /* SPONSORS */
-  .sponsor-chips{
+  /* CONTACT BUTTON */
+  .contact-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:16px;
+    margin-bottom:24px;
+    background:var(--gold);
+    color:#0a0a0a;
+    border:none;
+    border-radius:4px;
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:0.06em;
+    cursor:pointer;
+    transition:opacity .2s ease;
+  }
+  .contact-btn:active{opacity:0.8;}
+  .contact-btn-icon{
+    font-size:18px;
+    font-weight:400;
+    line-height:1;
+  }
     display:flex;
     flex-wrap:wrap;
     gap:8px;
@@ -609,7 +633,7 @@
         <span class="role-label" data-jp>世界選手権</span>
         <span class="role-label" data-en>World Championship</span>
         <div class="role-body">
-          <span data-jp>2024年 BMX世界選手権 <span class="gold">完全優勝</span><br>日本人男子20年ぶり史上2人目の世界一</span>
+          <span data-jp>2024年 BMX世界選手権 <span class="gold">完全優勝</span><br><span style="white-space:nowrap">日本人男子20年ぶり史上2人目の世界一</span></span>
           <span data-en>2024 BMX World Champion <span class="gold">(Perfect Run)</span><br>First Japanese male champion in 20 years</span>
         </div>
       </div>
@@ -634,6 +658,10 @@
 
   <!-- PROFILE -->
   <section class="block fade-up">
+    <button class="contact-btn" onclick="addContact()">
+      <span class="contact-btn-icon">＋</span>
+      <span data-jp>連絡先に追加</span><span data-en>Add to Contacts</span>
+    </button>
     <div class="sec-head">
       <div class="node"></div>
       <div>
@@ -779,6 +807,31 @@ function setLang(lang){
   document.body.classList.toggle('lang-en', lang==='en');
   document.getElementById('btn-jp').classList.toggle('active', lang==='jp');
   document.getElementById('btn-en').classList.toggle('active', lang==='en');
+}
+
+function addContact(){
+  const vcard = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    'N:高崎;成琉;;;',
+    'FN:高崎 成琉',
+    'NICKNAME:Naru Takasaki',
+    'TITLE:BMX Racer',
+    'URL:https://tksk225.github.io/naru_bmxracer/',
+    'EMAIL:tkskfamiliar_225@yahoo.co.jp',
+    'NOTE:2024年 BMX世界選手権 完全優勝 / 日本自転車競技連盟 TALENT JUNIOR 男子U17 強化指定選手 / 2032年ブリスベン五輪 金メダル獲得を目標',
+    'END:VCARD'
+  ].join('\r\n');
+
+  const blob = new Blob([vcard], {type: 'text/vcard;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'naru_takasaki.vcf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 </script>
 
